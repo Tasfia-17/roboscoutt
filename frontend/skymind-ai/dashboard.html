@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyMind AI Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0e27;
+      color: #fff;
+    }
+
+    #dashboard {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 320px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .dashboard-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #818cf8;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .ai-decision {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .ai-decision-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+
+    .ai-action {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.2);
+      color: #818cf8;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .stat-card {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(71, 85, 105, 0.3);
+      border-radius: 6px;
+      padding: 10px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .battery-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .battery-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #34d399);
+      transition: width 0.3s ease;
+    }
+
+    .battery-fill.low {
+      background: linear-gradient(90deg, #ef4444, #f87171);
+    }
+
+    .position-display {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.5);
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    .toggle-btn {
+      width: 100%;
+      padding: 10px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      border-radius: 6px;
+      color: #818cf8;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn:hover {
+      background: rgba(99, 102, 241, 0.3);
+      border-color: rgba(99, 102, 241, 0.6);
+    }
+
+    .toggle-btn.active {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #10b981;
+    }
+
+    .mission-log {
+      max-height: 150px;
+      overflow-y: auto;
+      font-size: 11px;
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.5);
+      padding: 8px;
+      border-radius: 4px;
+    }
+
+    .mission-log::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .mission-log::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.5);
+    }
+
+    .mission-log::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 2px;
+    }
+
+    .log-entry {
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(71, 85, 105, 0.2);
+    }
+
+    .log-time {
+      color: #64748b;
+      font-size: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="dashboard">
+    <div class="dashboard-header">
+      <div class="status-indicator"></div>
+      <h2>🚁 SkyMind AI</h2>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🤖 AI Decision</div>
+      <div class="ai-decision">
+        <div class="ai-decision-text" id="ai-reasoning">
+          Initializing AI orchestration system...
+        </div>
+        <span class="ai-action" id="ai-action">STANDBY</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📊 Drone Status</div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Battery</div>
+          <div class="stat-value" id="battery-value">100%</div>
+          <div class="battery-bar">
+            <div class="battery-fill" id="battery-fill" style="width: 100%"></div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Altitude</div>
+          <div class="stat-value" id="altitude-value">0.0m</div>
+        </div>
+      </div>
+      <div class="position-display" id="position-display">
+        Position: (0.0, 0.0, 0.0)
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🎯 Mission Control</div>
+      <button class="toggle-btn active" id="ai-toggle" onclick="toggleAI()">
+        ✓ AI ORCHESTRATION ACTIVE
+      </button>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📝 Mission Log</div>
+      <div class="mission-log" id="mission-log">
+        <div class="log-entry">
+          <div class="log-time">System initialized</div>
+          <div>Awaiting first telemetry...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dashboard update functions
+    function updateDashboard(data) {
+      // Update AI decision
+      if (data.decision) {
+        document.getElementById('ai-reasoning').textContent = data.decision.reasoning || 'Processing...';
+        document.getElementById('ai-action').textContent = (data.decision.action || 'HOVER').toUpperCase();
+      }
+
+      // Update battery
+      if (data.battery !== undefined) {
+        const battery = Math.round(data.battery);
+        document.getElementById('battery-value').textContent = battery + '%';
+        const fill = document.getElementById('battery-fill');
+        fill.style.width = battery + '%';
+        fill.className = battery < 20 ? 'battery-fill low' : 'battery-fill';
+      }
+
+      // Update position
+      if (data.position) {
+        const pos = data.position;
+        document.getElementById('position-display').textContent = 
+          `Position: (${pos.x.toFixed(2)}, ${pos.y.toFixed(2)}, ${pos.z.toFixed(2)})`;
+        document.getElementById('altitude-value').textContent = pos.z.toFixed(1) + 'm';
+      }
+
+      // Add to mission log
+      if (data.logMessage) {
+        addLogEntry(data.logMessage);
+      }
+    }
+
+    function addLogEntry(message) {
+      const log = document.getElementById('mission-log');
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      const time = new Date().toLocaleTimeString();
+      entry.innerHTML = `
+        <div class="log-time">${time}</div>
+        <div>${message}</div>
+      `;
+      log.insertBefore(entry, log.firstChild);
+      
+      // Keep only last 20 entries
+      while (log.children.length > 20) {
+        log.removeChild(log.lastChild);
+      }
+    }
+
+    function toggleAI() {
+      const btn = document.getElementById('ai-toggle');
+      const isActive = btn.classList.toggle('active');
+      btn.textContent = isActive ? '✓ AI ORCHESTRATION ACTIVE' : '○ AI ORCHESTRATION DISABLED';
+      
+      // This will be called from main.js
+      if (window.skyMindAI) {
+        window.skyMindAI.toggleAI();
+        addLogEntry(isActive ? 'AI orchestration enabled' : 'AI orchestration disabled');
+      }
+    }
+
+    // Expose update function globally
+    window.updateSkyMindDashboard = updateDashboard;
+    window.addSkyMindLog = addLogEntry;
+  </script>
+</body>
+</html>

@@ -1,367 +1,369 @@
-# MuJoCo WebAssembly Simulation
+# 🚁 SkyMind AI - Autonomous Drone Fleet Orchestrator
 
-<p align="center">
-  <a href="https://mujoco-wasm.vercel.app/"><img src="./thumbnail.png" href></a>
-</p>
+> AI-powered drone fleet coordination platform for warehouse operations  
+> Built for [lablab.ai AI Meets Robotics Hackathon](https://lablab.ai/event/launch-fund-ai-meets-robotics)
 
-## 👥 Contributors
+[![Demo](https://img.shields.io/badge/Demo-Live-success)](https://mujoco-wasm.vercel.app/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Hackathon](https://img.shields.io/badge/Hackathon-AI%20Meets%20Robotics-orange)](https://lablab.ai/event/launch-fund-ai-meets-robotics)
 
-<p align="center">
-  <a href="https://github.com/AdvayIyer">
-    <img src="https://github.com/AdvayIyer.png" width="60" height="60" style="border-radius: 50%; margin: 0 10px;" alt="AdvayIyer">
-  </a>
-  <a href="https://github.com/k1a11220">
-    <img src="https://github.com/k1a11220.png" width="60" height="60" style="border-radius: 50%; margin: 0 10px;" alt="k1a11220">
-  </a>
-</p>z
-
-<p align="center">
-  <a href="https://github.com/AdvayIyer"><strong>@AdvayIyer</strong></a> •
-  <a href="https://github.com/k1a11220"><strong>@k1a11220</strong></a>
-</p>
-
-## 🚁 Interactive Physics Simulation in Your Browser
-
-Experience the power of MuJoCo physics simulation directly in your web browser. This project provides real-time interactive simulation with drone control, robot dynamics, and advanced physics modeling using WebAssembly technology.
-
-### [🎮 Try the Live Demo](https://mujoco-wasm.vercel.app/)
+![SkyMind AI Banner](./thumbnail.png)
 
 ---
 
-## ✨ Features
+## 🎯 Overview
 
-- **Real-time Physics**: Advanced MuJoCo physics simulation running at 60 FPS in browser
-- **Interactive Control**: Keyboard and mouse controls for dynamic simulation interaction
-- **Multiple Scenarios**: Skydio X2 drone, Boston Dynamics Spot robot, and various physics demos
-- **Camera System**: Multiple viewing modes including orbit, track, and fixed perspectives
-- **PID Control**: Advanced control algorithms for realistic drone flight dynamics
-- **Cross-Platform**: Runs on any modern web browser with WebAssembly support
+**SkyMind AI** transforms warehouse drone operations with intelligent, autonomous coordination. By combining Google Gemini's reasoning capabilities with real-time physics simulation, we create a transparent, scalable platform for fleet management.
+
+### The Problem
+Modern warehouses deploy drone fleets for inventory inspection, but coordinating multiple autonomous agents requires centralized AI that adapts to real-time conditions like battery levels, obstacles, and mission priorities.
+
+### Our Solution
+- **🤖 Gemini AI** for mission planning with explainable reasoning
+- **☁️ Vultr Backend** as central coordination layer
+- **⚙️ MuJoCo Simulation** for digital twin validation
+- **📊 Live Dashboard** showing real-time AI decisions
 
 ---
 
-## 🎯 Quick Start
+## ✨ Key Features
 
-### Running the Simulation
+### 🧠 Transparent AI Decision-Making
+Every action is explained in natural language. No black box - operators understand why drones make specific choices.
 
-1. **Clone the repository:**
+### 🎮 Real-Time Physics Simulation
+Browser-based MuJoCo engine running at 60 FPS with realistic flight dynamics and PID control.
 
-   ```bash
-   git clone https://github.com/zalo/mujoco_wasm.git
-   cd mujoco_wasm
-   ```
+### 📡 Cloud Coordination
+Vultr-powered backend logs all telemetry, stores mission history, and coordinates fleet operations.
 
-2. **Serve the files locally:**
+### 🎯 Production-Ready Architecture
+Built like a real SaaS platform with REST APIs, database persistence, and scalable infrastructure.
 
-   ```bash
-   # Using Python
-   python -m http.server 8000
+---
 
-   # Or using Node.js
-   npx serve .
-   ```
+## 🎥 Demo
 
-3. **Open in browser:**
-   Navigate to `http://localhost:8000` and enjoy the simulation!
+**[▶️ Watch Demo Video](YOUR_YOUTUBE_LINK)**
+
+**[🌐 Try Live Demo](https://mujoco-wasm.vercel.app/)**
+
+---
+
+## 🏗 Architecture
+
+```
+┌──────────────────┐
+│  Browser Client  │  MuJoCo WASM + Three.js
+│  (Simulation)    │  Sends telemetry every 1s
+└────────┬─────────┘
+         │ REST API
+         ▼
+┌──────────────────┐
+│  Vultr Backend   │  Node.js + Express + SQLite
+│  (Coordination)  │  Central system of record
+└────────┬─────────┘
+         │ Gemini API
+         ▼
+┌──────────────────┐
+│  Google Gemini   │  AI mission planning
+│  (Intelligence)  │  Explainable reasoning
+└────────┬─────────┘
+         │ Decision
+         ▼
+┌──────────────────┐
+│  Live Dashboard  │  Real-time monitoring
+│  (Monitoring)    │  AI decision display
+└──────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 20+
+- Python 3 (for local server)
+- Vultr account
+- Gemini API key ([Get free key](https://aistudio.google.com/app/apikey))
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/Tasfia-17/SkyMind.git
+cd SkyMind
+```
+
+### 2. Deploy Backend to Vultr
+```bash
+# SSH into your Vultr VM
+ssh root@YOUR_VULTR_IP
+
+# Upload backend files
+scp -r backend/* root@YOUR_VULTR_IP:/var/www/skymind-backend/
+
+# Run setup script
+cd /var/www/skymind-backend
+chmod +x setup.sh
+./setup.sh
+
+# Start server
+npm install
+pm2 start server.js --name skymind
+pm2 startup && pm2 save
+```
+
+**Detailed deployment guide:** [docs/HACKATHON_SUBMISSION_GUIDE.md](docs/HACKATHON_SUBMISSION_GUIDE.md)
+
+### 3. Run Frontend Locally
+```bash
+cd mujoco_wasm
+python -m http.server 8000
+```
+
+Open http://localhost:8000 in your browser.
+
+### 4. Configure Backend URL
+Edit `frontend/skymind-ai/skymind-ai.js`:
+```javascript
+const BACKEND_URL = 'http://YOUR_VULTR_IP:3000';
+```
+
+---
+
+## 📁 Project Structure
+
+```
+SkyMind/
+├── backend/                    # Vultr backend
+│   ├── server.js              # Node.js API + Gemini integration
+│   ├── package.json           # Dependencies
+│   ├── setup.sh               # Automated Vultr setup
+│   └── README.md              # Backend deployment guide
+│
+├── frontend/                   # Frontend integration
+│   └── skymind-ai/
+│       ├── dashboard.html     # Live dashboard UI
+│       ├── skymind-ai.js      # AI integration module
+│       └── INTEGRATION_GUIDE.js  # Integration instructions
+│
+├── mujoco_wasm/               # MuJoCo simulation
+│   ├── examples/              # Simulation scenes
+│   │   ├── skydio_x2/        # Drone simulation
+│   │   └── combined_drone_spot/  # Multi-agent
+│   ├── src/                   # WASM source
+│   └── index.html             # Main entry point
+│
+├── docs/                       # Documentation
+│   ├── HACKATHON_SUBMISSION_GUIDE.md  # Complete guide
+│   └── QUICK_REFERENCE.txt    # Quick reference
+│
+└── README.md                   # This file
+```
 
 ---
 
 ## 🎮 Controls
 
-### Drone Control (Skydio X2)
+### Drone Control
+- **W/S** - Pitch forward/backward
+- **A/D** - Roll left/right
+- **Space** - Increase altitude
+- **Z** - Decrease altitude
 
-The simulation supports two control modes:
+### Camera
+- **C** - Cycle camera modes
+- **Mouse** - Orbit camera
+- **Scroll** - Zoom
 
-#### Manual Mode
-
-- **W/S**: Pitch forward/backward
-- **A/D**: Roll left/right
-- **Space**: Ascend (increase thrust)
-- **Z**: Descend (decrease thrust)
-
-#### PID Control Mode (Default)
-
-Advanced automated flight control with stability assistance:
-
-- **W/S**: Set pitch target (-15° to +15°)
-- **A/D**: Set roll target (-15° to +15°)
-- **Space**: Increase altitude target
-- **Z**: Decrease altitude target
-
-### Camera Controls
-
-- **C**: Cycle camera modes (Orbit → Track → Fixed)
-- **Mouse**: Orbit camera control (in Orbit mode)
-- **Mouse Wheel**: Zoom in/out
-
-### GUI Controls
-
-- **Right Panel**: Real-time parameter adjustment
-- **Pause/Play**: Simulation control
-- **Reset**: Restore initial state
-- **Speed**: Adjust simulation speed
+### AI Control
+- **Dashboard Toggle** - Switch between AI and manual mode
 
 ---
 
-## 🔧 PID Control System
+## 📡 API Endpoints
 
-### Overview
+### `POST /telemetry`
+Send drone state to backend.
 
-The drone uses a sophisticated PID (Proportional-Integral-Derivative) control system for stable flight:
+```bash
+curl -X POST http://YOUR_VULTR_IP:3000/telemetry \
+  -H "Content-Type: application/json" \
+  -d '{
+    "drone_id": "drone_1",
+    "position": {"x": 1.5, "y": 2.0, "z": 3.0},
+    "battery": 85,
+    "status": "active"
+  }'
+```
 
-```javascript
-class PID {
-  constructor(kp = 0, ki = 0, kd = 0, outMin = -Infinity, outMax = Infinity)
+### `POST /mission`
+Get AI decision from Gemini.
+
+```bash
+curl -X POST http://YOUR_VULTR_IP:3000/mission \
+  -H "Content-Type: application/json" \
+  -d '{
+    "drone_id": "drone_1",
+    "position": {"x": 1.5, "y": 2.0, "z": 3.0},
+    "battery": 85,
+    "velocity": {"x": 0.1, "y": 0, "z": 0},
+    "obstacles": []
+  }'
+```
+
+**Response:**
+```json
+{
+  "action": "patrol",
+  "target": {"x": 5.0, "y": 3.0, "z": 2.5},
+  "reasoning": "Battery sufficient, continuing patrol route"
 }
 ```
 
-### Control Axes
+### `GET /stats`
+Get dashboard statistics.
 
-- **Roll PID**: Controls left/right tilt (A/D keys)
-- **Pitch PID**: Controls forward/backward tilt (W/S keys)
-- **Yaw PID**: Controls rotation (automatically stabilized)
-- **Altitude PID**: Controls vertical position (Space/Z keys)
-
-### Default Parameters
-
-```javascript
-// All PIDs use default gains:
-kp = 2.0; // Proportional gain
-ki = 2.0; // Integral gain
-kd = 2.0; // Derivative gain
-```
-
-### Features
-
-- **Anti-windup**: Prevents integral term from growing excessively
-- **Output Limits**: Constrains control signals to safe ranges
-- **Gaussian Noise**: Adds realistic control jitter
-- **Automatic Stabilization**: Returns to level flight when inputs released
+### `GET /history`
+Get mission and telemetry history.
 
 ---
 
-## 🛠 Build Instructions
+## 🛠 Tech Stack
 
-### Prerequisites
+**Frontend:**
+- MuJoCo WASM - Physics simulation
+- Three.js - 3D rendering
+- Vanilla JavaScript - No framework bloat
 
-- **Emscripten SDK**: For WebAssembly compilation
-- **CMake**: Build system
-- **Python 3**: For binding generation
+**Backend:**
+- Node.js + Express - API server
+- SQLite - Telemetry database
+- PM2 - Process management
 
-### Building from Source
+**AI:**
+- Google Gemini 2.0 Flash - Decision making
+- Natural language reasoning
+- JSON structured outputs
 
-1. **Install Emscripten:**
-
-   ```bash
-   git clone https://github.com/emscripten-core/emsdk.git
-   cd emsdk
-   ./emsdk install latest
-   ./emsdk activate latest
-   source ./emsdk_env.sh
-   ```
-
-2. **Generate bindings:**
-
-   ```bash
-   python src/parse_mjxmacro.py
-   ```
-
-3. **Build WebAssembly:**
-
-   ```bash
-   mkdir build
-   cd build
-   emcmake cmake ..
-   make
-   ```
-
-   **Windows users:** Run `build_windows.bat` instead.
-
-### JavaScript API
-
-```javascript
-import load_mujoco from "./mujoco_wasm.js";
-
-// Load the MuJoCo Module
-const mujoco = await load_mujoco();
-
-// Set up Virtual File System
-mujoco.FS.mkdir("/working");
-mujoco.FS.mount(mujoco.MEMFS, { root: "." }, "/working");
-
-// Load simulation
-let model = new mujoco.Model("/working/scene.xml");
-let state = new mujoco.State(model);
-let simulation = new mujoco.Simulation(model, state);
-```
-
-TypeScript definitions are included for full IDE support.
+**Infrastructure:**
+- Vultr Cloud Compute - Backend hosting
+- Vercel - Frontend deployment
+- GitHub - Version control
 
 ---
 
-## 📁 Available Scenes
+## 🏆 Hackathon Alignment
 
-- **skydio_x2**: Advanced quadrotor drone with PID control
-- **boston_dynamics_spot**: Quadruped robot simulation
-- **humanoid**: Bipedal robot with 22 degrees of freedom
-- **combined_drone_spot**: Multi-agent simulation
-- **22_humanoids**: Large-scale crowd simulation
-- **de_dust2**: CS:GO map environment for testing
-- **And many more...** (see `/examples/scenes/`)
+### Track 1: Autonomous Robotics Control ✅
+- AI-driven decision making (not scripted)
+- Adaptive behavior based on real-time state
+- Multi-agent coordination capability
+
+### Required Technologies ✅
+- **Vultr** - Central backend and system of record
+- **Gemini AI** - Mission planning and reasoning
+- **Simulation** - MuJoCo physics engine
+- **Web-based** - Accessible via browser
+
+### Innovation ✅
+- Transparent AI reasoning (not black box)
+- Real-time coordination layer
+- Digital twin validation
+- Explainable autonomy
 
 ---
 
-## 📜 License & Attribution
+## 💼 Business Value
 
-### This Project
+### Target Market
+- Warehouse automation ($30B by 2026)
+- Drone logistics (55% annual growth)
+- Enterprise fleet management
 
-This project is licensed under the **MIT License**. See [LICENSE](LICENSE) file for details.
+### Value Proposition
+- **Reduce costs** - Automated coordination vs manual
+- **Increase safety** - Digital twin testing before deployment
+- **Scale easily** - One AI brain for entire fleet
+- **Debug faster** - Transparent AI reasoning
 
-### Third-Party Components
+### Revenue Model
+- SaaS subscription per drone
+- Enterprise licenses for large fleets
+- API access for integrations
 
-#### MuJoCo Physics Engine
+---
 
-- **License**: Apache License 2.0
-- **Copyright**: Google DeepMind (formerly Roboti LLC)
-- **Attribution**: This project uses MuJoCo physics simulation
-- **Repository**: https://github.com/google-deepmind/mujoco
+## 📈 Future Roadmap
 
-#### Three.js 3D Library
-
-- **License**: MIT License
-- **Copyright**: © 2010-2025 three.js authors
-- **Attribution**: 3D rendering powered by Three.js
-- **Repository**: https://github.com/mrdoob/three.js
-
-#### lil-gui Control Panel
-
-- **License**: MIT License
-- **Author**: George Michael Brower
-- **Repository**: https://github.com/georgealways/lil-gui
-
-#### OrbitControls
-
-- **License**: MIT License (part of Three.js examples)
-- **Usage**: Camera control system
-
-### Compliance Notes
-
-- All required copyright notices are preserved
-- Attribution requirements are met per each license
-- Compatible with both personal and commercial use
-- No additional restrictions imposed
+- [ ] Multi-drone collision avoidance
+- [ ] Real-time obstacle detection
+- [ ] Battery optimization algorithms
+- [ ] Integration with real drone hardware
+- [ ] Fleet analytics dashboard
+- [ ] Mobile operator app
+- [ ] Voice commands via Gemini
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how you can help:
-
-### Development Setup
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes and test thoroughly
-4. Submit a pull request with a clear description
-
-### Areas for Contribution
-
+We welcome contributions! Areas for improvement:
 - New simulation scenarios
-- Control system improvements
-- Performance optimizations
-- Documentation enhancements
-- Bug fixes and testing
-
-### Code Style
-
-- Follow existing JavaScript/C++ conventions
-- Comment complex physics calculations
-- Test on multiple browsers
-- Maintain TypeScript definitions
+- Control system enhancements
+- Dashboard features
+- Documentation improvements
 
 ---
 
-## 🐛 Troubleshooting
+## 📄 License
 
-### Common Issues
+MIT License - See [LICENSE](LICENSE) for details.
 
-**Simulation won't load:**
-
-- Ensure WebAssembly is supported in your browser
-- Check browser console for error messages
-- Try serving files over HTTP (not file://)
-
-**Poor performance:**
-
-- Close other browser tabs
-- Reduce simulation speed in GUI
-- Try a different scene with fewer objects
-
-**Controls not working:**
-
-- Click in the simulation area to focus
-- Check if PID mode is enabled/disabled as intended
-- Verify keyboard layout (WASD keys)
-
-**Build failures:**
-
-- Ensure Emscripten version compatibility (<3.1.56 recommended)
-- Check that all dependencies are installed
-- Verify Python path in build scripts
-
-### Getting Help
-
-- Check existing [GitHub Issues](https://github.com/zalo/mujoco_wasm/issues)
-- Create a new issue with detailed description
-- Include browser/OS information for bugs
-
----
-
-## 🔬 Technical Details
-
-### Architecture
-
-- **Frontend**: Vanilla JavaScript with ES6 modules
-- **Physics**: MuJoCo 2.3.1 compiled to WebAssembly
-- **Graphics**: Three.js WebGL renderer
-- **Controls**: Custom input management system
-- **Build**: CMake + Emscripten toolchain
-
-### Performance
-
-- **Target**: 60 FPS real-time simulation
-- **Physics Step**: Variable timestep with interpolation
-- **Rendering**: Optimized mesh updates and culling
-- **Memory**: Efficient WASM heap management
-
-### Browser Support
-
-- Chrome/Chromium 85+ (recommended)
-- Firefox 85+
-- Safari 14+
-- Edge 85+
-- Mobile browsers (limited performance)
+### Third-Party Components
+- **MuJoCo** - Apache 2.0 (Google DeepMind)
+- **Three.js** - MIT License
+- **Node.js** - MIT License
 
 ---
 
 ## 🙏 Acknowledgments
 
-Special thanks to:
-
-- **@stillonearth** for the original starter repository
-- **Google DeepMind** for open-sourcing MuJoCo
-- **Three.js team** for the excellent 3D library
-- **Emscripten team** for WebAssembly compilation tools
-- The open-source physics simulation community
+- **lablab.ai** - Hackathon organizers
+- **Google DeepMind** - Gemini AI and MuJoCo
+- **Vultr** - Cloud infrastructure
+- **Surge** - Funding opportunities
 
 ---
 
-## 📞 Contact & Links
+## 📞 Links
 
-- **Original Repository**: https://github.com/zalo/mujoco_wasm
-- **Live Demo**: https://mujoco-wasm.vercel.app/
-- **MuJoCo Official**: https://mujoco.org/
-- **Three.js Official**: https://threejs.org/
+- **Live Demo:** https://mujoco-wasm.vercel.app/
+- **Backend API:** `http://YOUR_VULTR_IP:3000`
+- **Demo Video:** [YOUR_YOUTUBE_LINK]
+- **X Post:** [YOUR_TWEET_URL]
+- **Hackathon:** https://lablab.ai/event/launch-fund-ai-meets-robotics
 
 ---
 
-_Built with ❤️ for the robotics and simulation community_
+## 👥 Team
+
+Built by [@Tasfia-17](https://github.com/Tasfia-17)
+
+**Original MuJoCo WASM Contributors:**
+- [@AdvayIyer](https://github.com/AdvayIyer)
+- [@k1a11220](https://github.com/k1a11220)
+
+---
+
+## 📖 Documentation
+
+- **[Complete Submission Guide](docs/HACKATHON_SUBMISSION_GUIDE.md)** - Full deployment walkthrough
+- **[Quick Reference](docs/QUICK_REFERENCE.txt)** - Quick start commands
+- **[Backend README](backend/README.md)** - Backend deployment details
+- **[Integration Guide](frontend/skymind-ai/INTEGRATION_GUIDE.js)** - Frontend integration
+
+---
+
+**Built with ❤️ for autonomous robotics and AI innovation**
+
+🚁 **SkyMind AI** - Making drone fleets intelligent, transparent, and scalable
