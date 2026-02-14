@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/mujoco_wasm/$1" }
+  ]
+}
