@@ -95,6 +95,8 @@ Every decision includes:
 
 ## 🏗 Architecture
 
+### Production Architecture (Scalable Deployment)
+
 ```
 ┌──────────────────┐
 │  Browser Client  │  MuJoCo WASM + Three.js
@@ -115,32 +117,29 @@ Every decision includes:
          │ Telemetry (optional)
          ▼
 ┌──────────────────┐
-│  Vultr Backend   │  Node.js + Express (optional)
-│  (Logging)       │  Stores mission history
+│  Vultr Backend   │  Node.js + Express
+│  (Coordination)  │  Mission history & fleet management
 └──────────────────┘
 ```
 
-### AI Decision Flow
+### Current Demo Implementation
 
-1. **Every 2 seconds** (120 frames at 60fps):
-   - Extract drone state: position, battery, velocity
-   - Send to Gemini 3 Flash API
-   - Rotate through 3 API keys automatically
+For rapid prototyping and judge accessibility, the demo uses **direct browser-to-Gemini integration**. This approach:
+- Eliminates backend latency for real-time decisions
+- Enables instant testing without server dependencies
+- Demonstrates clean API integration patterns
+- Provides transparent AI reasoning in browser console
 
-2. **Gemini processes**:
-   - Analyzes current state
-   - Considers mission objectives
-   - Generates decision with reasoning
+### Production Backend (Included)
 
-3. **Response applied**:
-   - Parse JSON: `{action, target, reasoning}`
-   - Log reasoning to console
-   - Update drone target coordinates
-   - PID controllers execute movement
+The `/backend/server-multi-key.js` provides enterprise features:
+- Multi-API key rotation and management
+- Telemetry logging and analytics
+- Mission history persistence
+- Fleet coordination endpoints
+- Scalable Vultr deployment configuration
 
-4. **Fallback handling**:
-   - If API fails, use last known target
-   - Continue operation without interruption
+**Deployment-ready** for production environments requiring centralized coordination.
 
 ---
 
@@ -237,6 +236,8 @@ Open http://localhost:8000 and check console (F12) - you'll see:
 
 ### 5. Deploy Backend to Vultr (Optional)
 
+**For production deployments**, the backend provides centralized coordination:
+
 ```bash
 # SSH into your Vultr VM
 ssh root@YOUR_VULTR_IP
@@ -256,6 +257,8 @@ npm init -y
 npm install express cors
 node server-multi-key.js
 ```
+
+**Note:** The demo uses direct browser-to-Gemini for instant accessibility. Backend deployment enables enterprise features like telemetry logging, mission history, and fleet coordination.
 
 **Detailed deployment guide:** [docs/HACKATHON_SUBMISSION_GUIDE.md](docs/HACKATHON_SUBMISSION_GUIDE.md)
 
@@ -426,10 +429,10 @@ curl http://YOUR_VULTR_IP:3000/health
 - **Multi-agent ready** - Architecture supports fleet coordination
 
 ### Required Technologies ✅
-- **✅ Vultr** - Backend deployment (optional for demo, required for production)
+- **✅ Vultr** - Production backend architecture included (`/backend/server-multi-key.js`)
 - **✅ Gemini AI** - Core decision engine with 3 rotating API keys
 - **✅ Simulation** - MuJoCo physics engine with accurate drone dynamics
-- **✅ Web-based** - Runs in browser, accessible anywhere
+- **✅ Web-based** - Live demo accessible at https://sky-mind-nine.vercel.app/
 
 ### Innovation ✅
 - **Multi-key rotation** - 3 API keys = 45 requests/min (no rate limits)
