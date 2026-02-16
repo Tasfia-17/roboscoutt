@@ -7,9 +7,9 @@ app.use(express.json());
 
 // Multiple Gemini API Keys (rotates to avoid rate limits)
 const GEMINI_KEYS = [
-  "AIzaSyCQtq6fk63ScfmhOizw5dUYC7tLG3FR24U",
-  "AIzaSyAGmz_T4-VWRlvjuBCTyPFghtvvR8QpMwQ",
-  "AIzaSyDpZCLoTZ3ekTIUq2l1q6xnIEENUwHAypw"
+  process.env.GEMINI_KEY_1 || "YOUR_KEY_1",
+  process.env.GEMINI_KEY_2 || "YOUR_KEY_2",
+  process.env.GEMINI_KEY_3 || "YOUR_KEY_3"
 ];
 let keyIndex = 0;
 

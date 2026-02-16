@@ -18,11 +18,12 @@ import { createControllerForScene } from "./controllers/index.js";
 // ============================================
 // AI INTEGRATION - Gemini 3 Flash
 // ============================================
-// Keys loaded from window.ENV (set by Vercel)
+// IMPORTANT: Set these in Vercel Environment Variables
+// Go to: Vercel Dashboard → Settings → Environment Variables
 const GEMINI_API_KEYS = window.ENV?.GEMINI_KEYS || [
-  "AIzaSyCQtq6fk63ScfmhOizw5dUYC7tLG3FR24U",
-  "AIzaSyAGmz_T4-VWRlvjuBCTyPFghtvvR8QpMwQ",
-  "AIzaSyDpZCLoTZ3ekTIUq2l1q6xnIEENUwHAypw"
+  "REPLACE_WITH_YOUR_KEY_1",
+  "REPLACE_WITH_YOUR_KEY_2",
+  "REPLACE_WITH_YOUR_KEY_3"
 ];
 let currentKeyIndex = 0;
 let aiEnabled = true;

@@ -5,13 +5,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const TINYFISH_API_KEY = "sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO";
-const SAMBANOVA_API_KEY = "e5dff711-1df4-4d1f-adec-62c52de77ab3";
+const TINYFISH_API_KEY = process.env.TINYFISH_API_KEY || "YOUR_TINYFISH_KEY";
+const SAMBANOVA_API_KEY = process.env.SAMBANOVA_API_KEY || "YOUR_SAMBANOVA_KEY";
 
 const GEMINI_KEYS = [
-  "AIzaSyCQtq6fk63ScfmhOizw5dUYC7tLG3FR24U",
-  "AIzaSyAGmz_T4-VWRlvjuBCTyPFghtvvR8QpMwQ",
-  "AIzaSyDpZCLoTZ3ekTIUq2l1q6xnIEENUwHAypw"
+  process.env.GEMINI_KEY_1 || "YOUR_KEY_1",
+  process.env.GEMINI_KEY_2 || "YOUR_KEY_2",
+  process.env.GEMINI_KEY_3 || "YOUR_KEY_3"
 ];
 let keyIndex = 0;
 
