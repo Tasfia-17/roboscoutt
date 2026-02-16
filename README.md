@@ -435,13 +435,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-## Links
 
-- **Live Demo**: https://robo-scout.vercel.app/
-- **GitHub**: https://github.com/Tasfia-17/robo-scout
-- **Hackathon**: https://lu.ma/webagentshack
-- **TinyFish**: https://tinyfish.ai
-- **Submit**: https://forms.gle/VdDDP1fADVLiWE5MA
 
 ---
 
