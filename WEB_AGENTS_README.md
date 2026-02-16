@@ -146,7 +146,7 @@ Output format: Structured JSON only
 
 ### Prerequisites
 - Node.js 20+
-- TinyFish API key: `sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO`
+- TinyFish API key: `YOUR_TINYFISH_KEY`
 - 3x Gemini API keys (already configured)
 
 ### 1. Run Web Agent Backend
@@ -181,7 +181,7 @@ Open http://localhost:8000 and press F12 to see:
 **Scrape Website Data:**
 ```bash
 curl -X POST https://agent.tinyfish.ai/v1/automation/run-sse \
-  -H "X-API-Key: sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO" \
+  -H "X-API-Key: YOUR_TINYFISH_KEY" \
   -H "Content-Type: application/json" \
   -d '{
     "url": "https://warehouse-dashboard.com/tasks",

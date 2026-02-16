@@ -1,7 +1,7 @@
 // DEMO: TinyFish Web Automation Examples for SkyMind WebOps
 // Copy these into your main.js or run separately to test
 
-const TINYFISH_API_KEY = "sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO";
+const TINYFISH_API_KEY = "YOUR_TINYFISH_KEY"; // Set your API key here
 
 // Example 1: Scrape Weather for Flight Safety
 async function checkFlightWeather() {

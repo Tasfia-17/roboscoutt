@@ -1,7 +1,7 @@
 // SkyMind WebOps - TinyFish Integration Layer
 // Add this to main.js for Web Agents Hackathon
 
-const TINYFISH_API_KEY = "sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO";
+const TINYFISH_API_KEY = "YOUR_TINYFISH_KEY"; // Set via environment or config
 const WEB_AGENT_BACKEND = "http://localhost:3001";
 
 // Simulated warehouse dashboard URLs (replace with real ones)

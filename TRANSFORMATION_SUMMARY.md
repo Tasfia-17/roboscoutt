@@ -278,8 +278,8 @@ We're the only web agent with 3D visualization and two-way automation."
 - Your Demo: https://sky-mind-nine.vercel.app/
 
 ### API Keys (Already Configured):
-- TinyFish: `sk-tinyfish-GNc7SJkKci7lviX152z59peTF8zC3-WO`
-- SambaNova: `e5dff711-1df4-4d1f-adec-62c52de77ab3`
+- TinyFish: `YOUR_TINYFISH_KEY`
+- SambaNova: `YOUR_SAMBANOVA_KEY`
 - Gemini: 3 keys already in code
 
 ---
